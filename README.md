@@ -8,8 +8,7 @@
 
 Ex:
 ```
-make all root=../experiment_33_docking_files/ output_dir=Prueba receptor_pdb=3DKO.pdb ligand_name=Abemaciclib  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf ff=amber99sb-ildn water=tip3p
-
+ make all root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ output_dir=Prueba_final receptor_pdb=3DKO.pdb ligand_name=Abemaciclib  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf ff=amber99sb-ildn water=tip3p
 ```
 ## Options
 - Water: spc, spce, tip3p, tip4p, tip5p, tips3p
@@ -19,3 +18,5 @@ make all root=../experiment_33_docking_files/ output_dir=Prueba receptor_pdb=3DK
 - Gromacs
 - MDanalsys
 - mdtraj
+- networkx
+- prolif
