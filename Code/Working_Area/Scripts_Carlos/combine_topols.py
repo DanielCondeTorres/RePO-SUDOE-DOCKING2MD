@@ -15,7 +15,7 @@ def extract_molecules(lines):
                 molecules.append(line.strip())
     return molecules
 
-def merge_topologies(receptor_top, ligand_top, output_top):
+def merge_topologies(receptor_top, ligand_top, output_top, ff, itp):
     with open(receptor_top, 'r') as f:
         receptor_lines = f.readlines()
 
@@ -24,7 +24,7 @@ def merge_topologies(receptor_top, ligand_top, output_top):
 
     output_lines = []
 
-    abem_itp_line = '#include "Abemaciclib_GMX.itp"\n'
+    abem_itp_line = f'#include "{itp}_GMX.itp"\n'
     posre_line = '#include "posre.itp"\n'
 
     # Etapas de control
@@ -41,7 +41,7 @@ def merge_topologies(receptor_top, ligand_top, output_top):
             break  # Salta todo lo que sigue después
 
         # 1. Insert Abemaciclib_GMX.itp justo después de forcefield.itp
-        if stripped == '#include "charmm27.ff/forcefield.itp"' and not abem_itp_inserted:
+        if stripped == f'#include "{ff}.ff/forcefield.itp"' and not abem_itp_inserted:
             output_lines.append(line)
             output_lines.append(abem_itp_line)
             abem_itp_inserted = True
@@ -92,9 +92,11 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--receptor", required=True, help="Archivo .top del receptor")
     parser.add_argument("-l", "--ligand", required=True, help="Archivo .top del ligando")
     parser.add_argument("-o", "--output", required=True, help="Archivo .top de salida combinado")
-
+    
+    parser.add_argument("-itp","--itp_file",required=True, help="Archivo -itp del ligando")
+    parser.add_argument("-ff","--ff_file",required=True, help="Archivo -ff forcefield empleado")
     args = parser.parse_args()
-    merge_topologies(args.receptor, args.ligand, args.output)
+    merge_topologies(args.receptor, args.ligand, args.output, args.ff_file, args.itp_file)
 
 
 '''
