@@ -34,11 +34,11 @@ docking2D_resutls:
 
 
 # make combinar_topologias ligand_name=Abemaciclib output_dir=Prueba 
+# make combinar_topologias ligand_name=Abemaciclib output_dir=Prueba 
 combinar_topologias:
-	cp $(ligand_name).acpype/$(ligand_name)_GMX.top ../$(output_dir)
-	cp $(ligand_name).acpype/$(ligand_name)_GMX.itp ../$(output_dir)
-	python Scripts_Carlos/combine_topols.py -l ../$(output_dir)/$(ligand_name)_GMX.top -r ../$(output_dir)/receptor.top  -o ../$(output_dir)/topol.top
-
+        cp $(ligand_name).acpype/$(ligand_name)_GMX.top ../$(output_dir)
+        cp $(ligand_name).acpype/$(ligand_name)_GMX.itp ../$(output_dir)
+        python Scripts_Carlos/combine_topols.py -l ../$(output_dir)/$(ligand_name)_GMX.top -r ../$(output_dir)/receptor.top  -o ../$(output_dir)/topol.top -ff $(ff) -itp $(ligand_name)
 
 # make obtener_pdb_combinado  ligand_name=Abemaciclib output_dir=Prueba 
 obtener_pdb_combinado:
