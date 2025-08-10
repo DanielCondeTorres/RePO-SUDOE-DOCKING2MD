@@ -5,6 +5,9 @@ conda env create -f nombre_del_archivo.yml
 ```
 
 ## Usage
+```
+conda activate acype
+```
 
 ```
  make all root=../experiment_33_docking_files/ output_dir=Dir_name_to_save_results receptor_pdb=receptor.pdb ligand_name=name_of_the_lignand resultados_vina_pdqt=results_out.pdbqt.sdf ff=forcefield_name water=water_model
