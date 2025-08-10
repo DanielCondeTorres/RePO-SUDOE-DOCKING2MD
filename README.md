@@ -1,5 +1,9 @@
 # RePO-SUDOE-DOCKING2MD
 
+```
+conda env create -f nombre_del_archivo.yml
+```
+
 ## Usage
 
 ```
