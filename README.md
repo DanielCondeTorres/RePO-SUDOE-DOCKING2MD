@@ -27,3 +27,7 @@ Ex:
 - mdtraj
 - networkx
 - prolif
+
+
+Añadir:
+Makefile & lanzar.sh
