@@ -17,7 +17,7 @@ parser.add_argument('--pdbqt_ligs', default='all.pdbqt', help='Archivo de entrad
 parser.add_argument('--output_pdb', default='all.pdb', help='Archivo temporal pdb de salida generado desde pdbqt')
 parser.add_argument('--receptor', default='receptor.pdb', help='Archivo pdb del receptor')
 parser.add_argument('--dir_models', default='./modelos_pdb', help='Directorio para modelos pdb individuales')
-parser.add_argument('--dir_output', default='./resultado_final', help='Directorio para guardar resultados')
+parser.add_argument('--dir_output', default='./VR_files/', help='Directorio para guardar resultados')
 parser.add_argument('--cutoff', type=float, default=5.0, help='Radio para considerar cercanía entre átomos')
 
 args = parser.parse_args()
@@ -27,10 +27,12 @@ Path(args.dir_models).mkdir(exist_ok=True)
 Path(args.dir_output).mkdir(exist_ok=True)
 
 # Paso 1: Convertir pdbqt a pdb
-subprocess.run(f'obabel -ipdbqt {args.pdbqt_ligs} -opdb -O {args.output_pdb}', shell=True, check=True)
-
+subprocess.run(f'obabel -isdf {args.pdbqt_ligs} -opdb -O {args.output_pdb}.pdb', shell=True, check=True)
+subprocess.run(f'obabel -isdf {args.pdbqt_ligs} -opdbqt -O {args.output_pdb}.pdbqt', shell=True, check=True)
+subprocess.run(f'obabel -ipdbqt {args.pdbqt_ligs} -opdb -O {args.output_pdb}.pdb', shell=True, check=True)
+subprocess.run(f'obabel -ipdbqt {args.pdbqt_ligs} -osdf -O {args.output_pdb}.sdf',shell=True, check=True)
 # Paso 2: Leer archivo pdb y extraer energías
-with open(args.output_pdb, 'r') as file:
+with open(f'{args.output_pdb}.pdb', 'r') as file:
     lines = file.readlines()
 
 energias = {}
