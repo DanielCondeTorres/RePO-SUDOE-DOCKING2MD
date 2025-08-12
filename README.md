@@ -46,3 +46,6 @@ Only is needed to use:
 ```
 sbatch lanzar.sh
 ```
+
+
+Necesario darle un par de vueltas al pdbfixer.py, pero es necesario para arreglar los pdb iniciales
