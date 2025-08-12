@@ -35,6 +35,7 @@ steps_previos_al_docking_ligando:
 docking2D_resutls:
 	mkdir ../$(output_dir)/Docking_picture/
 	python Scripts_Carlos/docking2D.py --protein $(root)/$(receptor_pdb) --poses $(root)/$(ligand_name).sdf --output ../$(output_dir)/Docking_picture/interactions.html
+#python Scripts_Carlos/docking2D.py --protein $(root)/receptor_clean.pdb --poses $(root)/$(ligand_name).sdf --output ../$(output_dir)/Docking_picture/interactions.html
 
 
 # make combinar_topologias ligand_name=Abemaciclib output_dir=Prueba 
