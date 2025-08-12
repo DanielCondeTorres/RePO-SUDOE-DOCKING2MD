@@ -1,5 +1,9 @@
 # RePO-SUDOE-DOCKING2MD
 
+## Install
+
+Use the acpype .yml for Linux
+
 ```
 conda env create -f nombre_del_archivo.yml
 ```
@@ -29,5 +33,16 @@ Ex:
 - prolif
 
 
-Añadir:
-Makefile & lanzar.sh
+# NOTE!!!!!:
+
+Change in lanzar.sh 
+
+```
+make all root=../Input_files/experiment_39_docking_files/ output_dir=Prueba_final receptor_pdb=6QH4.pdb ligand_name=Palbociclib  resultados_vina_pdqt=6QH4_Palbociclib_out.pdbqt.sdf ff=amber99sb-ildn water=tip3p
+```
+
+Only is needed to use:
+
+```
+sbatch lanzar.sh
+```
