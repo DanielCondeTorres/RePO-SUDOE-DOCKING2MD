@@ -3,8 +3,8 @@ SCRIPT = main.sh
 
 
 # make all root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ output_dir=Prueba receptor_pdb=3DKO.pdb ligand_name=Abemaciclib  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf ff=amber99sb-ildn water=tip3p
-.PHONY: all steps_previos_al_docking_proteina docking2D_resutls steps_previos_al_docking_ligando combinar_topologias obtener_pdb_combinado agua_e_iones analysis
-all: steps_previos_al_docking_proteina docking2D_resutls steps_previos_al_docking_ligando combinar_topologias obtener_pdb_combinado agua_e_iones analysis
+.PHONY: all steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR
+all: steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR
 
 
 # Pedir a Carlos que use estos pdb para hacer el docking
@@ -18,7 +18,7 @@ steps_previos_al_docking_proteina:
 	mkdir -p  ../$(output_dir)
 	conda run -n acpype python Scripts_Carlos/fixer.py -i $(root)/$(receptor_pdb) -o ../$(output_dir)/receptor_clean.pdb
 	cp $(root)/$(receptor_pdb) ../$(output_dir)/
-	gmx pdb2gmx -f ../$(output_dir)/receptor_clean.pdb -ignh -p ../$(output_dir)/receptor.top -i ../$(output_dir)/posre.itp -ff $(ff) -water $(water)
+	gmx pdb2gmx -f ../$(output_dir)/receptor_clean.pdb -ignh -p ../$(output_dir)/receptor.top -i ../$(output_dir)/posre.itp -ff $(ff) -water $(water) -merge all
 
 # make steps_previos_al_docking_ligando ligand_name=Abemaciclib root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf
 steps_previos_al_docking_ligando:
@@ -36,9 +36,9 @@ docking2D_resutls:
 # make combinar_topologias ligand_name=Abemaciclib output_dir=Prueba 
 # make combinar_topologias ligand_name=Abemaciclib output_dir=Prueba 
 combinar_topologias:
-        cp $(ligand_name).acpype/$(ligand_name)_GMX.top ../$(output_dir)
-        cp $(ligand_name).acpype/$(ligand_name)_GMX.itp ../$(output_dir)
-        python Scripts_Carlos/combine_topols.py -l ../$(output_dir)/$(ligand_name)_GMX.top -r ../$(output_dir)/receptor.top  -o ../$(output_dir)/topol.top -ff $(ff) -itp $(ligand_name)
+	cp $(ligand_name).acpype/$(ligand_name)_GMX.top ../$(output_dir)
+	cp $(ligand_name).acpype/$(ligand_name)_GMX.itp ../$(output_dir)
+	python Scripts_Carlos/combine_topols.py -l ../$(output_dir)/$(ligand_name)_GMX.top -r ../$(output_dir)/receptor.top  -o ../$(output_dir)/topol.top -ff $(ff) -itp $(ligand_name)
 
 # make obtener_pdb_combinado  ligand_name=Abemaciclib output_dir=Prueba 
 obtener_pdb_combinado:
@@ -62,3 +62,15 @@ all_pdqt:
 	cp *sdf ../$(output_dir)
 	python Script_for_ligand_protein_formation/obtain_best_affinity.py -log log.txt
 	cp log.txt ../$(output_dir)
+
+#resultados_vina_pdqt sustituir por all.pdbqt 
+# cambiar el python aa_interaction_flags.py por el nuevo de Alex, este debe estar viejo 
+# make crear_archivos_VR ligand_name=Abemaciclib resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf  output_dir=Prueba_final root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ 
+# Ojo cambiar por obabel -isdf all.pdqt.sdf -opdqt o lo que sea -O a.pdb segun los output que nos de esa gente en ligand_energy_attribution_bfcator.py
+# cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
+crear_archivos_VR:
+	cp  $(root)/$(resultados_vina_pdqt) ../$(output_dir)/all.pdbqt
+	# cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
+	cp $(ligand_name).acpype/md.pdb ../$(output_dir)
+	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
+	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/receptor_clean.pdb --output_path ../$(output_dir)/VR/aa_interactions_arx.json --sdf_path ../$(output_dir)/all.sdf
