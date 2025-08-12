@@ -16,11 +16,12 @@ all: steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2
 #make steps_previos_al_docking_proteina root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ output_dir=Prueba receptor_pdb=3DKO.pdb ff=amber99sb-ildn water=tip3p
 steps_previos_al_docking_proteina:
 	mkdir -p  ../$(output_dir)
-	conda run -n acpype python Scripts_Carlos/fixer.py -i $(root)/$(receptor_pdb) -o ../$(output_dir)/receptor_clean.pdb
+	conda run -n acpype python Scripts_Carlos/fixer.py -i $(root)/$(receptor_pdb) -o ../$(output_dir)/receptor_clean_previo.pdb
 	cp $(root)/$(receptor_pdb) ../$(output_dir)/
-	gmx pdb2gmx -f ../$(output_dir)/receptor_clean.pdb -ignh -p ../$(output_dir)/receptor.top -i ../$(output_dir)/posre.itp -ff $(ff) -water $(water) -merge all
+	gmx pdb2gmx -f ../$(output_dir)/receptor_clean_previo.pdb -ignh -p ../$(output_dir)/receptor.top -i ../$(output_dir)/posre.itp -ff $(ff) -water $(water) -merge all
 	gmx editconf -f conf.gro -o conf.pdb
-	awk '{if(substr($0,1,4)=="ATOM"||substr($0,1,6)=="HETATM") $0=substr($0,1,21)"A"substr($0,23); print}' conf.pdb > ../$(output_dir)/receptor_clean.pdb
+	awk '{if(substr($$0,1,4)=="ATOM" || substr($$0,1,6)=="HETATM") $$0=substr($$0,1,21)"A"substr($$0,23); print}' conf.pdb > ../$(output_dir)/receptor_clean.pdb
+
 	rm conf.gro conf.pdb
 
 # make steps_previos_al_docking_ligando ligand_name=Abemaciclib root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf
