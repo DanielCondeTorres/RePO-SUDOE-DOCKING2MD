@@ -1,4 +1,5 @@
 #!/bin/bash
+module load cesga/2020 gcc/system openmpi/4.0.5_ft3_cuda gromacs/2021.4-plumed-2.8.0
 
 COMPLEX_PDB_FILE_1="$1"  # Archivo PDB del complejo
 OUTPUT_SAVE="$2"
@@ -22,4 +23,9 @@ gmx mdrun -v -deffnm "$OUTPUT_SAVE"eq_npt_fep_1 -ntmpi 4
 gmx grompp -f ../Input_files/MDP_FILES/prod.mdp -c "$OUTPUT_SAVE"eq_npt_fep_1.gro -p "$OUTPUT_SAVE"topol.top -o "$OUTPUT_SAVE"prod.tpr -maxwarn 2
 
 # Si se hace en gromacs igual es mejor lanzar un .sh
+#srun gmx_mpi mdrun -pin on -cpi -noappend -s "$OUTPUT_SAVE"prod.tpr
 gmx mdrun -v -deffnm "$OUTPUT_SAVE"prod -ntmpi 4
+
+
+#Añado analisis aqui:
+bash Scripts_Carlos/analyisis_creation.sh "$OUTPUT_SAVE"

@@ -389,17 +389,19 @@ def plot_rmsd_rmsf(u,output_dir,residues_1_names,residues_2_names ,label_1, labe
     plt.figure(figsize=(12, 6))
 
     for segid in segids:
-        chain_atoms = u.select_atoms(f"segid {segid} and protein")
-        print('CHAINSSSS',segid)
-        # Reference atoms (positions from the first frame)
-        ref_atoms = u.select_atoms(f"segid {segid} and protein")
-        
-        # Create the RMSD object
-        rmsd_ = rms.RMSD(chain_atoms, ref_atoms)  # This will compute RMSD for each frame with respect to the first frame
-        rmsd_.run()  # Run the RMSD analysis
-        rmsd = rmsd_.rmsd.T
-        # Plot RMSD for this chain
-        plt.plot(np.array(rmsd[1])/1000, rmsd[2], label=f"Chain {segid} RMSD")
+        if segid == 'A': #para solo la proteina
+            chain_atoms = u.select_atoms(f"segid {segid} and protein")
+            print('CHAINSSSS',segid)
+            # Reference atoms (positions from the first frame)
+            ref_atoms = u.select_atoms(f"segid {segid} and protein")
+            
+            # Create the RMSD object
+            rmsd_ = rms.RMSD(chain_atoms, ref_atoms)  # This will compute RMSD for each frame with respect to the first frame
+            rmsd_.run()  # Run the RMSD analysis
+            rmsd = rmsd_.rmsd.T
+            # Plot RMSD for this chain
+            #plt.plot(np.array(rmsd[1])/1000, rmsd[2], label=f"Chain {segid} RMSD")
+            plt.plot(np.array(rmsd[1])/1000, rmsd[2], label=f"Protein RMSD")
     plt.xlabel("Time (ns)")
     plt.ylabel("RMSD (Å)")
     plt.legend()
@@ -443,7 +445,7 @@ def plot_rmsd_rmsf(u,output_dir,residues_1_names,residues_2_names ,label_1, labe
                 plt.plot(residues_names, avg_rmsf, label=f"Chain {segid} RMSF")
                 plt.xlabel("Atom Index")
                 plt.ylabel("RMSF (Å)")
-                plt.xticks(ticks=np.arange(0, len(residues_names), 5), labels=residues_names[::5], rotation=90, fontsize=12)
+                plt.xticks(ticks=np.arange(0, len(residues_names), 8), labels=residues_names[::8], rotation=90, fontsize=12)
                 output_path = f"{output_dir}/rmsf{segid}.png"
                 #plt.yticks(ticks=np.arange(0, len(residues_names), 20), labels=residues_names[::20], rotation=0, fontsize=14)
                 plt.tight_layout()
@@ -476,11 +478,11 @@ def plot_rmsd_rmsf(u,output_dir,residues_1_names,residues_2_names ,label_1, labe
                 plt.plot(residues_names, avg_rmsf, label=f"Chain {segid} RMSF")
                 plt.xlabel("Atom Index")
                 plt.ylabel("RMSF (Å)")
-                plt.xticks(ticks=np.arange(0, len(residues_names), 5), labels=residues_names[::5], rotation=90, fontsize=12)
+                plt.xticks(ticks=np.arange(0, len(residues_names), 8), labels=residues_names[::8], rotation=90, fontsize=12)
                 output_path = f"{output_dir}/rmsf{segid}_chains.png"
                 #plt.yticks(ticks=np.arange(0, len(residues_names), 20), labels=residues_names[::20], rotation=0, fontsize=14)
                 plt.tight_layout()
-                plt.savefig(output_path, dpi=300)
+                #plt.savefig(output_path, dpi=300)
                 plt.close()  # Close figure to avoid overlap
         except:
             print('next')
@@ -502,7 +504,7 @@ def rmsf_2(u,residues_1_names,residues_2_names ,label_1, label_2,output_dir):
         # Seleccionar los residuos únicos del segid
         residues = u.select_atoms(f"segid {segid} and name CA").residues
         # Crear una lista de etiquetas tipo "ARG45"
-        residue_names = [f"{res.resname}{res.resid}" for res in residues]
+        residue_names = [f"{res.resname}{i+1}" for i, res in enumerate(residues)]#[f"{res.resname}{res.resid}" for res in residues] 
         residue_name_map[segid] = residue_names
         # Alinear trayectoria completa al primer frame usando todos los CA
         aligner = align.AlignTraj(u, u, select="name CA", in_memory=True)
@@ -541,8 +543,8 @@ def rmsf_2(u,residues_1_names,residues_2_names ,label_1, label_2,output_dir):
         plt.xlabel("Residue")
         plt.ylabel("RMSF (Å)")
         plt.title(f"RMSF - Cadena {segid}")
-        plt.xticks(ticks=np.arange(0, len(residues_names), 5),
-                   labels=residues_names[::5], rotation=90, fontsize=10)
+        plt.xticks(ticks=np.arange(0, len(residues_names), 8),
+                   labels=residues_names[::8], rotation=90, fontsize=10)
         plt.tight_layout()
 
         output_path = f"{output_dir}/rmsf_2{segid}.png"
