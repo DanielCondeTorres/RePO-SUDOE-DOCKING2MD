@@ -1,6 +1,17 @@
 # RePO-SUDOE-DOCKING2MD
 
+## Install
+
+Use the acpype .yml for Linux
+
+```
+conda env create -f nombre_del_archivo.yml
+```
+
 ## Usage
+```
+conda activate acype
+```
 
 ```
  make all root=../experiment_33_docking_files/ output_dir=Dir_name_to_save_results receptor_pdb=receptor.pdb ligand_name=name_of_the_lignand resultados_vina_pdqt=results_out.pdbqt.sdf ff=forcefield_name water=water_model
@@ -20,3 +31,21 @@ Ex:
 - mdtraj
 - networkx
 - prolif
+
+
+# NOTE!!!!!:
+
+Change in lanzar.sh 
+
+```
+make all root=../Input_files/experiment_39_docking_files/ output_dir=Prueba_final receptor_pdb=6QH4.pdb ligand_name=Palbociclib  resultados_vina_pdqt=6QH4_Palbociclib_out.pdbqt.sdf ff=amber99sb-ildn water=tip3p
+```
+
+Only is needed to use:
+
+```
+sbatch lanzar.sh
+```
+
+
+Necesario darle un par de vueltas al pdbfixer.py, pero es necesario para arreglar los pdb iniciales

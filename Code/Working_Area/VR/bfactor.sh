@@ -53,4 +53,3 @@ mv "$vr_folder/receptor_final_bfactor_residue.pdb" "$vr_folder/center.pdb"
 
 # Copy ligand pdb file
 cp $ligand "$vr_folder/ligando.pdb"
-

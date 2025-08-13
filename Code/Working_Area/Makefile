@@ -36,6 +36,7 @@ steps_previos_al_docking_ligando:
 docking2D_resutls:
 	mkdir ../$(output_dir)/Docking_picture/
 	python Scripts_Carlos/docking2D.py --protein $(root)/$(receptor_pdb) --poses $(root)/$(ligand_name).sdf --output ../$(output_dir)/Docking_picture/interactions.html
+#python Scripts_Carlos/docking2D.py --protein $(root)/receptor_clean.pdb --poses $(root)/$(ligand_name).sdf --output ../$(output_dir)/Docking_picture/interactions.html
 
 
 # make combinar_topologias ligand_name=Abemaciclib output_dir=Prueba 
@@ -79,6 +80,9 @@ crear_archivos_VR:
 	cp $(ligand_name).acpype/md.pdb ../$(output_dir)
 	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/receptor_clean.pdb --output_path ../$(output_dir)/VR/aa_interactions_arx.json --sdf_path ../$(output_dir)/all.sdf
+<<<<<<< HEAD
 
 clean:
 	rm -r $(ligand_name).acpype *gro *mdp *edr *pdb *xtc *cpt *log
+=======
+>>>>>>> 887bb383f929e7141fac86b4df57eac87cef17c3
