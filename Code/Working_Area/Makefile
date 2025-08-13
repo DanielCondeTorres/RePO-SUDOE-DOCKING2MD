@@ -3,8 +3,8 @@ SCRIPT = main.sh
 
 
 # make all root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ output_dir=Prueba receptor_pdb=3DKO.pdb ligand_name=Abemaciclib  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf ff=amber99sb-ildn water=tip3p
-.PHONY: all steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR
-all: steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR
+.PHONY: all steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR clean
+all: steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR clean
 
 
 # Pedir a Carlos que use estos pdb para hacer el docking
