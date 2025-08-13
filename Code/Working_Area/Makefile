@@ -3,8 +3,8 @@ SCRIPT = main.sh
 
 
 # make all root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ output_dir=Prueba receptor_pdb=3DKO.pdb ligand_name=Abemaciclib  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf ff=amber99sb-ildn water=tip3p
-.PHONY: all steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR
-all: steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR
+.PHONY: all steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR clean
+all: steps_previos_al_docking_proteina steps_previos_al_docking_ligando docking2D_resutls combinar_topologias obtener_pdb_combinado agua_e_iones analysis crear_archivos_VR clean
 
 
 # Pedir a Carlos que use estos pdb para hacer el docking
@@ -48,7 +48,7 @@ combinar_topologias:
 
 # make obtener_pdb_combinado  ligand_name=Abemaciclib output_dir=Prueba 
 obtener_pdb_combinado:
-	bash Scripts_Carlos/join_pdbqt2pdb.sh -r ../$(output_dir)/receptor_clean.pdb  -l $(ligand_name).acpype/md.gro -o ../$(output_dir)/complejo.pdb
+	bash Scripts_Carlos/join_pdbqt2pdb.sh -r ../$(output_dir)/receptor_clean.pdb  -l $(ligand_name).acpype/$(ligand_name)_GMX.gro -o ../$(output_dir)/complejo.pdb
 
 # make agua_e_iones output_dir=Prueba
 agua_e_iones:
@@ -76,10 +76,8 @@ all_pdqt:
 # cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
 crear_archivos_VR:
 	cp  $(root)/$(resultados_vina_pdqt) ../$(output_dir)/all.pdbqt
-	# cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
-	cp $(ligand_name).acpype/md.pdb ../$(output_dir)
 	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/receptor_clean.pdb --output_path ../$(output_dir)/VR/aa_interactions_arx.json --sdf_path ../$(output_dir)/all.sdf
-
+# cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
 clean:
 	rm -r $(ligand_name).acpype *gro *mdp *edr *pdb *xtc *cpt *log

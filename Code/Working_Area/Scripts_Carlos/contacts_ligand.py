@@ -274,7 +274,7 @@ def main():
     plot_contacts(group_contacts, times, args.Output_dir, mapping)
     plot_distances(group_distances, times,  args.Output_dir, mapping)
     u, s1, s2, s3 = load_trajectory(args.pdb, args.xtc)
-    residues_1_names, residues_2_names = contact_map(u, s2, s1, args.r2_number, args.r1_number, args.label_2, args.label_1, args.Output_dir, '1', args.contact_radius,8,8)
+    residues_1_names, residues_2_names = contact_map(u, s2, s1, args.r2_number, args.r1_number, args.label_2, args.label_1, args.Output_dir, '1', args.contact_radius,10,10)
     #try:
     #    contact_map(u, s2, s3, args.r2_number, args.r3_number, args.label_2, args.label_3, args.Output_dir,'2', args.contact_radius,1 ,1)
     #    contact_map(u, s1, s3, args.r1_number, args.r3_number, args.label_1, args.label_3, args.Output_dir,'3', args.contact_radius,4 ,1)
