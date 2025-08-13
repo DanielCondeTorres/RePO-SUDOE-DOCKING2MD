@@ -74,6 +74,8 @@ all_pdqt:
 # make crear_archivos_VR ligand_name=Abemaciclib resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf  output_dir=Prueba_final root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ 
 # Ojo cambiar por obabel -isdf all.pdqt.sdf -opdqt o lo que sea -O a.pdb segun los output que nos de esa gente en ligand_energy_attribution_bfcator.py
 # cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
+
+
 crear_archivos_VR:
 	cp  $(root)/$(resultados_vina_pdqt) ../$(output_dir)/all.pdbqt
 	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
