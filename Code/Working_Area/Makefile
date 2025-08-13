@@ -48,7 +48,7 @@ combinar_topologias:
 
 # make obtener_pdb_combinado  ligand_name=Abemaciclib output_dir=Prueba 
 obtener_pdb_combinado:
-	bash Scripts_Carlos/join_pdbqt2pdb.sh -r ../$(output_dir)/receptor_clean.pdb  -l $(ligand_name).acpype/md.gro -o ../$(output_dir)/complejo.pdb
+	bash Scripts_Carlos/join_pdbqt2pdb.sh -r ../$(output_dir)/receptor_clean.pdb  -l $(ligand_name).acpype/$(ligand_name)_GMX.gro -o ../$(output_dir)/complejo.pdb
 
 # make agua_e_iones output_dir=Prueba
 agua_e_iones:
