@@ -84,6 +84,8 @@ crear_archivos_VR:
 	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/receptor_clean.pdb --output_path ../$(output_dir)/VR/aa_interactions_arx.json --sdf_path ../$(output_dir)/all.sdf
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/$(receptor_pdb) --output_path ../$(output_dir)/VR/aa_interactions_arx_not_good.json --sdf_path ../$(output_dir)/all.sdf
+	mkdir ../$(output_dir)/Simulation_files
+	cp ../$(output_dir)/prod* ../$(output_dir)/Simulation_files/
 # cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
 clean:
 	rm -r $(ligand_name).acpype *gro *mdp *edr *pdb *xtc *cpt *log
