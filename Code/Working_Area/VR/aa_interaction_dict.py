@@ -22,11 +22,11 @@ output_path = args.output_path if args.output_path else f"{file}/aa_interactions
 
 # --- Carga de la proteína ---
 protein = mda.Universe(pdb_path)
+protein.guess_TopologyAttrs(to_guess=["elements"])
 for residuo in protein.select_atoms("protein").residues:
     residuo.resid += 0  # Ajuste opcional de numeración
+protein_plf = plf.Molecule.from_mda(protein, NoImplicit=False)
 
-# --- Crear objetos ProLIF ---
-protein_plf = plf.Molecule.from_mda(protein,NoImplicit=False)
 poses_plf = plf.sdf_supplier(sdf_path)
 
 # --- Calcular fingerprint ---

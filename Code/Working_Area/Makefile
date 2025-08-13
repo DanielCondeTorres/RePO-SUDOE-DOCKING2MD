@@ -20,7 +20,9 @@ steps_previos_al_docking_proteina:
 	cp $(root)/$(receptor_pdb) ../$(output_dir)/
 	gmx pdb2gmx -f ../$(output_dir)/receptor_clean_previo.pdb -ignh -p ../$(output_dir)/receptor.top -i ../$(output_dir)/posre.itp -ff $(ff) -water $(water) -merge all
 	gmx editconf -f conf.gro -o conf.pdb
-	awk '{if(substr($$0,1,4)=="ATOM" || substr($$0,1,6)=="HETATM") $$0=substr($$0,1,21)"A"substr($$0,23); print}' conf.pdb > ../$(output_dir)/receptor_clean.pdb
+	awk '{if(substr($$0,1,4)=="ATOM" || substr($$0,1,6)=="HETATM") $$0=substr($$0,1,21)"A"substr($$0,23); print}' conf.pdb > ../$(output_dir)/receptor.pdb
+	python Scripts_Carlos/fix_pdb_chains.py ../$(output_dir)/receptor.pdb ../$(output_dir)/receptor_clean.pdb
+
 
 	rm conf.gro conf.pdb
 
@@ -75,11 +77,13 @@ all_pdqt:
 # Ojo cambiar por obabel -isdf all.pdqt.sdf -opdqt o lo que sea -O a.pdb segun los output que nos de esa gente en ligand_energy_attribution_bfcator.py
 # cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
 
-
+#cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt
 crear_archivos_VR:
 	cp  $(root)/$(resultados_vina_pdqt) ../$(output_dir)/all.pdbqt
+	
 	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/receptor_clean.pdb --output_path ../$(output_dir)/VR/aa_interactions_arx.json --sdf_path ../$(output_dir)/all.sdf
+	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/$(receptor_pdb) --output_path ../$(output_dir)/VR/aa_interactions_arx_not_good.json --sdf_path ../$(output_dir)/all.sdf
 # cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
 clean:
 	rm -r $(ligand_name).acpype *gro *mdp *edr *pdb *xtc *cpt *log
