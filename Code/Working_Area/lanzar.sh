@@ -1,9 +1,5 @@
 #!/bin/bash
-<<<<<<< HEAD
-#SBATCH -t  6:00:00 # execution time. Ex: 1 hour
-=======
 #SBATCH -t  2:00:00 # execution time. Ex: 1 hour
->>>>>>> 887bb383f929e7141fac86b4df57eac87cef17c3
 #SBATCH --mem-per-cpu=1GB
 #SBATCH -n 10 -c 5# number of tasks, number of cores
 #SBATCH --ntasks-per-node=10

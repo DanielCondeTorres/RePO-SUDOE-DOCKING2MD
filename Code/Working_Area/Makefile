@@ -80,9 +80,6 @@ crear_archivos_VR:
 	cp $(ligand_name).acpype/md.pdb ../$(output_dir)
 	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/receptor_clean.pdb --output_path ../$(output_dir)/VR/aa_interactions_arx.json --sdf_path ../$(output_dir)/all.sdf
-<<<<<<< HEAD
 
 clean:
 	rm -r $(ligand_name).acpype *gro *mdp *edr *pdb *xtc *cpt *log
-=======
->>>>>>> 887bb383f929e7141fac86b4df57eac87cef17c3
