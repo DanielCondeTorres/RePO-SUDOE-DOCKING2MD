@@ -79,7 +79,6 @@ all_pdqt:
 
 #cp  $(root)/$(resultados_vina_pdqt) ../$(output_dir)/all.pdbqt coger la primera a la segunda
 crear_archivos_VR:
-	cp  $(root)/$(resultados_vina_pdqt) ../$(output_dir)/all.pdbqt
 	cp $(root)/all.pdbqt ../$(output_dir)/
 	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/receptor_clean.pdb --output_path ../$(output_dir)/VR/aa_interactions_arx.json --sdf_path ../$(output_dir)/all.sdf
