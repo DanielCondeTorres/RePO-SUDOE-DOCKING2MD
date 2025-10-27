@@ -29,7 +29,7 @@ Luego entramos en Working_Area, con cd y damos la ruta a nuestros inputs:
  make all root=../experiment_33_docking_files/ output_dir=Dir_name_to_save_results receptor_pdb=receptor.pdb ligand_name=name_of_the_lignand resultados_vina_pdqt=results_out.pdbqt.sdf ff=forcefield_name water=water_model
 ```
 OJOOOO:
-ligand_name=Abemaciclib viene de 6TAV_Abemaciclib_out.pdbqt, se tiene que eleminar el 6TAV_ y el _out.pdbqt
+ligand_name=Abemaciclib viene de 6TAV_Abemaciclib_out.pdbqt, se tiene que eleminar el 6TAV_ y el _out.pdbqt este make se puede copiar y pegar en el lanzar.sh al final de todo y ejecutarlo con sbatch lanzar.sh
 
 Ex:
 ```
