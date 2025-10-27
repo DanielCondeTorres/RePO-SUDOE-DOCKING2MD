@@ -2,6 +2,13 @@
 
 ## Install
 
+In CESGA use first:
+
+```
+module load cesga/2020 miniconda3/22.11.1-1
+```
+
+
 Use the acpype .yml for Linux
 
 ```
