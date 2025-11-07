@@ -478,7 +478,7 @@ def plot_rmsd_rmsf(u,output_dir,residues_1_names,residues_2_names ,label_1, labe
                 output_path = f"{output_dir}/rmsf{segid}.png"
                 #plt.yticks(ticks=np.arange(0, len(residues_names), 20), labels=residues_names[::20], rotation=0, fontsize=14)
                 plt.tight_layout()
-                plt.savefig(output_path, dpi=300)
+                #plt.savefig(output_path, dpi=300)
                 plt.close()  # Close figure to avoid overlap
             except:
                 plt.figure(figsize=(12, 6))
@@ -574,7 +574,7 @@ def rmsf_2(u,residues_1_names,residues_2_names ,label_1, label_2,output_dir):
         plt.title(f"RMSF - Cadena {segid}")
         # plt.xticks(ticks=np.arange(0, len(residues_names), 8),
         #            labels=residues_names[::8], rotation=90, fontsize=10)
-        step = _choose_tick_step(len(residues_names), target_labels=40)
+        step = _choose_tick_step(len(residues_names), target_labels=30)
         plt.xticks(
             ticks=np.arange(0, len(residues_names), step),
             labels=np.array(residues_names)[::step],
@@ -583,7 +583,7 @@ def rmsf_2(u,residues_1_names,residues_2_names ,label_1, label_2,output_dir):
         )
         plt.tight_layout()
 
-        output_path = f"{output_dir}/rmsf_2{segid}.png"
+        output_path = f"{output_dir}/rmsf_{segid}.png"
         plt.savefig(output_path, dpi=300)
         plt.close()
         # Guardar RMSF en un archivo .txt
