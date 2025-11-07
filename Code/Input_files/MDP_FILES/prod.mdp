@@ -1,7 +1,7 @@
 title                   = COMPLEX_SIMULATION PRODUCTION
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 200000    ; 2 * 500000 = 1000 ps (1 ns)
+nsteps                  = 20000    ; 200000 steps before 2 * 500000 = 1000 ps (1 ns)
 dt                      = 0.002     ; 2 fs
 ; Output control
 nstxout                 = 0         ; suppress bulky .trr file by specifying 
