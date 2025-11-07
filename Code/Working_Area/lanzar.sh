@@ -16,7 +16,7 @@ conda activate acpype
 # ===============================
 # CONFIGURACIÓN DEL EXPERIMENTO
 # ===============================
-
+chmod a+rwx Scripts_Carlos/*sh
 set -euo pipefail
 
 # 1) Muévete al directorio de envío real (Working_Area)
