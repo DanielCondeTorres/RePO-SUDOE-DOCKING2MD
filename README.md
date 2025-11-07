@@ -28,14 +28,14 @@ Run the complete workflow using `make`:
 Makefile allows the user to just running a unique file and execute the whole code, or specific parts of it
 
 
-root: Input folder where the script will read the files                = ../Input_files/6QH4_ABEMACICLIB
-output_dir: Output folder created automatically and customized         = 6QH4_Abemaciclib_Out
-receptor_pdb: PDB file of the Protein (downloaded from the web)        = 6QH4.pdb
-ligand_name: Name of the ligand docked.                                = Abemaciclib_94NAMRd
-bfactor: Value asigned to the receptor.pdb created for VR visualization = 6QH4_Abemaciclib_94NAMRd_out.pdbqt
-resultados_vina_pdqt: Specific file coming from the RepoSUDOE Web      = 6QH4_Abemaciclib_94NAMRd_out.pdbqt.sdf
-ff: Forcefield to choose                                               = amber99sb-ildn
-water: Water model to choose                                           = tip3p
+- root: Input folder where the script will read the files                = ../Input_files/6QH4_ABEMACICLIB
+- output_dir: Output folder created automatically and customized         = 6QH4_Abemaciclib_Out
+- receptor_pdb: PDB file of the Protein (downloaded from the web)        = 6QH4.pdb
+- ligand_name: Name of the ligand docked.                                = Abemaciclib_94NAMRd
+- bfactor: Value asigned to the receptor.pdb created for VR visualization = 6QH4_Abemaciclib_94NAMRd_out.pdbqt
+- resultados_vina_pdqt: Specific file coming from the RepoSUDOE Web      = 6QH4_Abemaciclib_94NAMRd_out.pdbqt.sdf
+- ff: Forcefield to choose                                               = amber99sb-ildn
+- water: Water model to choose                                           = tip3p
 
 
 ### Example Usage
