@@ -15,7 +15,9 @@ gmx mdrun -v -deffnm "$OUTPUT_SAVE"min_fep1 -ntmpi 4
 
 # Equilibration NVT
 gmx grompp -f ../Input_files/MDP_FILES/eq_nvt.mdp -c "$OUTPUT_SAVE"min_fep1.gro -r "$OUTPUT_SAVE"min_fep1.gro -p "$OUTPUT_SAVE"topol.top -o "$OUTPUT_SAVE"eq_nvt_fep.tpr -maxwarn 2
+export GMX_MAXCONSTRWARN=-1
 gmx mdrun -v -deffnm "$OUTPUT_SAVE"eq_nvt_fep -ntmpi 4
+unset GMX_MAXCONSTRWARN
 # Equilibración NPT 1
 gmx grompp -f ../Input_files/MDP_FILES/eq_npt_fep_1.mdp -c "$OUTPUT_SAVE"eq_nvt_fep.gro -p "$OUTPUT_SAVE"topol.top -o "$OUTPUT_SAVE"eq_npt_fep_1.tpr -r "$OUTPUT_SAVE"eq_nvt_fep.gro -maxwarn 2
 gmx mdrun -v -deffnm "$OUTPUT_SAVE"eq_npt_fep_1 -ntmpi 4

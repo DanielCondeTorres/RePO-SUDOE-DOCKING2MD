@@ -21,22 +21,25 @@ steps_previos_al_docking_proteina:
 	gmx pdb2gmx -f ../$(output_dir)/receptor_clean_previo.pdb -ignh -p ../$(output_dir)/receptor.top -i ../$(output_dir)/posre.itp -ff $(ff) -water $(water) -merge all
 	gmx editconf -f conf.gro -o conf.pdb
 	awk '{if(substr($$0,1,4)=="ATOM" || substr($$0,1,6)=="HETATM") $$0=substr($$0,1,21)"A"substr($$0,23); print}' conf.pdb > ../$(output_dir)/receptor.pdb
-	python Scripts_Carlos/fix_pdb_chains.py ../$(output_dir)/receptor.pdb ../$(output_dir)/receptor_clean.pdb
+	python Scripts_Carlos/fix_pdb_chains.py ../$(output_dir)/receptor.pdb ../$(output_dir)/receptor_clean_.pdb
+	python Scripts_Carlos/alineamiento_receptor.py --ref $(root)/$(receptor_pdb) --mov ../$(output_dir)/receptor_clean_.pdb --out ../$(output_dir)/receptor_clean.pdb
 
 
 	rm conf.gro conf.pdb
 
 # make steps_previos_al_docking_ligando ligand_name=Abemaciclib root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf
 steps_previos_al_docking_ligando:
+	echo $(resultados_vina_pdqt)
 	cp $(root)/$(resultados_vina_pdqt) $(root)/$(ligand_name).sdf
 	conda run -n acpype acpype -i  $(root)/$(ligand_name).sdf
-	gmx editconf -f $(ligand_name).acpype/$(ligand_name)_GMX.gro -o ../$(output_dir)/md.pdb
+	python Scripts_Carlos/alineamiento.py --gro $(ligand_name).acpype/$(ligand_name)_GMX.gro  --sdf $(root)/$(ligand_name).sdf --out $(ligand_name).acpype/$(ligand_name)_GMX_aligned.gro
+	gmx editconf -f $(ligand_name).acpype/$(ligand_name)_GMX_aligned.gro -o ../$(output_dir)/md.pdb
 #bash -c "cd $(basename $(notdir $(ligand_name))).acpype && source rungmx.sh"
 #bash -c "cd $(basename $(notdir $(ligand_name))).acpype && gmx editconf -f md.gro -o md.pdb"
 
 # make docking2D_resutls ligand_name=Abemaciclib output_dir=Prueba_Final root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ receptor_pdb=3DKO.pdb
 docking2D_resutls:
-	mkdir ../$(output_dir)/Docking_picture/
+	mkdir -p ../$(output_dir)/Docking_picture/
 	python Scripts_Carlos/docking2D.py --protein $(root)/$(receptor_pdb) --poses $(root)/$(ligand_name).sdf --output ../$(output_dir)/Docking_picture/interactions.html
 #python Scripts_Carlos/docking2D.py --protein $(root)/receptor_clean.pdb --poses $(root)/$(ligand_name).sdf --output ../$(output_dir)/Docking_picture/interactions.html
 
@@ -50,11 +53,11 @@ combinar_topologias:
 
 # make obtener_pdb_combinado  ligand_name=Abemaciclib output_dir=Prueba 
 obtener_pdb_combinado:
-	bash Scripts_Carlos/join_pdbqt2pdb.sh -r ../$(output_dir)/receptor_clean.pdb  -l $(ligand_name).acpype/$(ligand_name)_GMX.gro -o ../$(output_dir)/complejo.pdb
+	bash Scripts_Carlos/join_pdbqt2pdb.sh -r ../$(output_dir)/receptor_clean.pdb  -l $(ligand_name).acpype/$(ligand_name)_GMX_aligned.gro -o ../$(output_dir)/complejo.pdb
 
 # make agua_e_iones output_dir=Prueba
 agua_e_iones:
-	gmx editconf -f ../$(output_dir)/complejo.pdb  -o ../$(output_dir)/box.pdb -d 1 # Necesito obtener de forma automatica las dimensiones de la caja
+	gmx editconf -f ../$(output_dir)/complejo.pdb  -o ../$(output_dir)/box.pdb -d 1.5 # Necesito obtener de forma automatica las dimensiones de la caja
 	#gmx solvate -cs spc216.gro -cp ../$(output_dir)/box.pdb -p ../$(output_dir)/topol.top -o ../$(output_dir)/caja_solvatada.pdb
 	bash Scripts_Carlos/main_ligand.sh ../$(output_dir)/box.pdb ../$(output_dir)/	
 
@@ -78,12 +81,21 @@ all_pdqt:
 # cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
 
 #cp  $(root)/$(resultados_vina_pdqt) ../$(output_dir)/all.pdbqt coger la primera a la segunda
+#cp $(root)/all.pdbqt ../$(output_dir)/
+
+# ===================================== IMPORTANTE ==========================
+# 
+# La linea de ligand_energy... es temporal
+# 
+# ===================================== vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 crear_archivos_VR:
-	cp $(root)/all.pdbqt ../$(output_dir)/
+	cp  $(root)/$(resultados_vina_pdqt) ../$(output_dir)/all.pdbqt
+	cp  $(root)/$(bfactor) ../$(output_dir)/bfactor.pdbqt
 	./VR/bfactor.sh -p ../$(output_dir) -v ../$(output_dir)/VR -l ../$(output_dir)/md.pdb
+	#python VR/ligand_energy_attribution_bfactor.py --pdbqt_ligs $(output_dir)/2REI_Afatinib_DIs38Xm_out.pdbqt --output_pdb $(output_dir)/all.pdb --receptor $(output_dir)/center_complete.pdb --dir_models $(output_dir)/models_center_pdb --dir_output "$(output_dir)/bfactor_receptor_center --cutoff 5.0
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/receptor_clean.pdb --output_path ../$(output_dir)/VR/aa_interactions_arx.json --sdf_path ../$(output_dir)/all.sdf
 	python VR/aa_interaction_dict.py --file ../$(output_dir) --pdb_path ../$(output_dir)/$(receptor_pdb) --output_path ../$(output_dir)/VR/aa_interactions_arx_not_good.json --sdf_path ../$(output_dir)/all.sdf
-	mkdir ../$(output_dir)/Simulation_files
+	mkdir -p ../$(output_dir)/Simulation_files
 	cp ../$(output_dir)/prod* ../$(output_dir)/Simulation_files/
 # cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
 clean:

@@ -1,0 +1,150 @@
+* Force Field Parameter File.
+* 
+
+BOND
+c3 c3  300.90   1.538
+c3 hc  330.60   1.097
+c3 n3  325.90   1.465
+c3 h1  330.60   1.097
+n3 c6    0.00   0.000	!ATTN, need revision
+n3 c6    0.00   0.000
+c6 h1    0.00   0.000
+c3 ca  321.00   1.516
+ca ca  461.10   1.398
+ca ha  345.80   1.086
+ca nu  417.90   1.386	! same as  ca nh
+ca nb  488.00   1.339
+ca nu  417.90   1.386
+nu hn  404.60   1.012	! same as  hn nh
+ca h4  341.50   1.089
+ca f   357.80   1.349
+ca cp  450.20   1.406
+cp cp  351.40   1.485
+cp nb  488.50   1.339
+ca nc  467.70   1.352
+cd nc  525.40   1.317
+c3 cd  334.80   1.502
+cd na  425.80   1.380
+c3 na  327.70   1.463
+ca na  420.50   1.384
+c6 c6    0.00   0.000
+
+ANGLE
+c3 c3 n3   66.000     111.040
+c3 c3 h1   46.400     109.560
+c3 c3 hc   46.300     109.800
+c3 n3 c6    0.000       0.000
+n3 c3 h1   49.500     109.880
+n3 c6 h1    0.000       0.000
+n3 c6 c6    0.000       0.000
+c6 c6 h1    0.000       0.000
+c6 n3 c6    0.000       0.000
+n3 c3 ca   66.200     112.160
+c3 ca ca   63.500     120.770
+ca c3 h1   47.000     109.560
+ca ca ca   66.600     120.020
+ca ca ha   48.200     119.880
+ca ca nb   68.800     122.940
+ca ca h4   48.100     120.340
+ca ca nu   68.300     120.950	! same as ca ca nh
+ca nu ca   63.300     127.460	! same as ca nh ca
+ca nu hn   48.400     116.070	! same as ca nh hn
+ca nb ca   68.300     117.220
+nu ca nb   72.700     116.940	! same as nb ca nh
+nu ca nb   72.700     116.940
+ca nu hn   48.400     116.070
+ca nb cp   68.100     118.050
+nb ca nb   70.900     127.260
+nb ca h4   51.900     116.030
+ca ca f    67.100     118.960
+ca ca cp   66.300     120.690
+ca cp cp   64.000     121.110
+ca cp nb   69.000     121.620
+f  ca cp   66.800     119.420
+cp cp nb   68.200     116.610
+cp ca ha   48.000     119.860
+ca cp ca   66.700     118.380
+ca ca nc   69.500     119.720
+ca nc cd   72.500     104.880
+ca ca na   69.100     118.340
+nc cd c3   66.500     122.410
+nc cd na   74.900     112.220
+cd c3 hc   47.200     110.490
+cd na c3   61.900     126.460
+cd na ca   67.400     113.150
+c3 cd na   65.300     122.730
+na c3 c3   65.500     112.880
+na c3 h1   49.800     108.780
+c3 na ca   62.300     124.360
+c3 c3 c3   62.900     111.510
+hc c3 hc   39.400     107.580
+h1 c3 h1   39.200     108.460
+h1 c6 h1    0.000       0.000
+
+DIHEDRAL
+X  c3 c3 X      0.156         3       0.0
+X  c3 n3 X      0.300         3       0.0
+c3 n3 c6 h1      -nan         0       0.0
+c6 n3 c6 h1      -nan         0       0.0
+c3 n3 c6 c6      -nan         0       0.0
+c6 n3 c6 c6      -nan         0       0.0
+h1 c6 c6 n3      -nan         0       0.0
+h1 c6 c6 h1      -nan         0       0.0
+X  c3 ca X      0.000         2       0.0
+X  ca ca X      3.625         2     180.0
+ca ca nu ca     1.050         2     180.0      ! same as X  ca nh X 
+nb ca nu ca     1.050         2     180.0      ! same as X  ca nh X 
+ca ca nu hn     1.050         2     180.0      ! same as X  ca nh X 
+nb ca nu hn     1.050         2     180.0      ! same as X  ca nh X 
+X  ca nb X      4.800         2     180.0
+X  ca cp X      3.625         2     180.0
+X  cp cp X      1.000         2     180.0
+ca cp nb ca     4.800         2     180.0      ! same as X  ca nb X 
+cp cp nb ca     4.800         2     180.0      ! same as ca cp nb ca
+X  ca nc X      4.800         2     180.0
+X  cd nc X      4.750         2     180.0
+X  c3 cd X      0.000         3       0.0
+X  cd na X      1.700         2     180.0
+X  c3 na X      0.000         2       0.0
+X  ca na X      0.300         2     180.0
+hc c3 c3 c3     0.160         3       0.0
+n3 c6 c6 n3      -nan         0       0.0
+
+IMPHI
+c3 ca ca ca     1.100         2     180.0
+X  X  ca ha     1.100         2     180.0
+ca nb ca nu     1.100         2     180.0	! Using default value
+ca ca nu hn     1.100         2     180.0	! Using default value
+nb nb ca nu     1.100         2     180.0	! Using default value
+ca h4 ca nb     1.100         2     180.0	! Using default value
+ca cp ca f      1.100         2     180.0	! Using default value
+ca cp cp nb     1.100         2     180.0	! Using default value
+ca ca cp cp     1.100         2     180.0	! Using default value
+ca ca ca f      1.100         2     180.0
+ca ca ca nc     1.100         2     180.0	! Using default value
+c3 na cd nc     1.100         2     180.0	! Using default value
+c3 ca na cd     1.100         2     180.0	! Using default value
+ca ca ca na     1.100         2     180.0	! Using default value
+
+NONBONDED  NBXMOD 5  GROUP SWITCH CDIEL -
+CUTNB 14.0  CTOFNB 12.0  CTONNB 10.0  EPS 1.0  E14FAC 0.83333333  WMIN 1.4
+!                Emin     Rmin/2              Emin/2     Rmin  (for 1-4's)
+!             (kcal/mol)    (A)
+c3      0.00   -0.1094    1.9080      0.00   -0.0547    1.9080
+n3      0.00   -0.1700    1.8240      0.00   -0.0850    1.8240
+c6      0.00    0.0000    0.0000      0.00    0.0000    0.0000
+c6      0.00   -0.0000    0.0000      0.00   -0.0000    0.0000
+ca      0.00   -0.0860    1.9080      0.00   -0.0430    1.9080
+nu      0.00   -0.1700    1.8240      0.00   -0.0850    1.8240
+      ! same as nh 
+nb      0.00   -0.1700    1.8240      0.00   -0.0850    1.8240
+ f      0.00   -0.0610    1.7500      0.00   -0.0305    1.7500
+cp      0.00   -0.0860    1.9080      0.00   -0.0430    1.9080
+nc      0.00   -0.1700    1.8240      0.00   -0.0850    1.8240
+cd      0.00   -0.0860    1.9080      0.00   -0.0430    1.9080
+na      0.00   -0.1700    1.8240      0.00   -0.0850    1.8240
+hc      0.00   -0.0157    1.4870      0.00   -0.0078    1.4870
+h1      0.00   -0.0157    1.3870      0.00   -0.0078    1.3870
+ha      0.00   -0.0150    1.4590      0.00   -0.0075    1.4590
+hn      0.00   -0.0157    0.6000      0.00   -0.0078    0.6000
+h4      0.00   -0.0150    1.4090      0.00   -0.0075    1.4090

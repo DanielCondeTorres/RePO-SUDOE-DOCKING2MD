@@ -48,10 +48,11 @@ q
 EOF
 
 # Execute the Python script
+echo "Ejecutando ligand_energy_attribution!!!"
 python VR/ligand_energy_attribution_bfactor.py \
-    --pdbqt_ligs  "$path/all.pdbqt" \
+    --pdbqt_ligs  "$path/bfactor.pdbqt" \
     --output_pdb "$path/all" \
-    --receptor "$path/center_complete.pdb" \
+    --receptor "$path/receptor_clean.pdb" \
     --dir_models "$path/models_center_pdb" \
     --dir_output "$path/bfactor_receptor_center" \
     --cutoff 5.0
@@ -60,7 +61,8 @@ python VR/ligand_energy_attribution_bfactor.py \
 cp "$path/all.pdb" "$vr_folder"
 cp "$path/bfactor_receptor_center/receptor_final_bfactor_residue.pdb" "$vr_folder"
 cp "$path/center_complete.xtc" "$vr_folder/center.xtc"
-mv "$vr_folder/receptor_final_bfactor_residue.pdb" "$vr_folder/center.pdb"
+cp "$path/center_complete.pdb" "$vr_folder/center.pdb"
+mv "$vr_folder/receptor_final_bfactor_residue.pdb" "$vr_folder/receptor.pdb"
 
 # Copy ligand pdb file
 cp $ligand "$vr_folder/ligando.pdb"

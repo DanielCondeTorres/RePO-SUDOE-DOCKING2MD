@@ -11,6 +11,16 @@ import matplotlib as mpl
 from MDAnalysis.analysis import align
 mpl.use('Agg')
 
+def _choose_tick_step(n, target_labels=35):
+    """Devuelve un paso (1,2,5,10,20,25,50,...) para mostrar ~target_labels etiquetas como máximo."""
+    if n <= 0:
+        return 1
+    if n <= target_labels:
+        return 1
+    nice_steps = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000]
+    raw = max(1, int(np.ceil(n / target_labels)))
+    return next((s for s in nice_steps if s >= raw), nice_steps[-1])
+
 def moving_average(x: list, n: int=30):
     """
     This function computes the moving average of a time series (array `x`) over a specified window size `n`.
@@ -112,7 +122,7 @@ def contact_map(u, res_init_1: int, res_init_2: int, xlabel: str, ylabel: str,Ou
 
     # Create the contact map figure
     plt.figure(figsize=(18, 10))
-    plt.pcolormesh(contact_map, cmap="plasma", edgecolors="black", linewidth=0.5)
+    plt.pcolormesh(contact_map, cmap="plasma", edgecolors="black", linewidth=0.1)
 
     # Add color bar for contact frequency
     plt.colorbar(label="Contact Frequency")
@@ -199,9 +209,16 @@ def dssp_analysis(chain_id, trajectory_file, topology_file, residues_names, Outp
     plt.bar(range(num_residues), max_freq * 100, color=colors)
     plt.xlabel(f'{name_file}', fontsize=20)
     plt.ylabel('Percentage of dominant conformation', fontsize=20)
-    plt.xticks(ticks=np.arange(0, len(residues_names), jump), labels=residues_names[::jump], rotation=90, fontsize=10)
+    # plt.xticks(ticks=np.arange(0, len(residues_names), jump), labels=residues_names[::jump], rotation=90, fontsize=10)
+    step = _choose_tick_step(len(residues_names), target_labels=40)
+    plt.xticks(
+    ticks=np.arange(0, len(residues_names), step),
+    labels=np.array(residues_names)[::step],
+    rotation=90,
+    fontsize=10
+)
     plt.yticks(fontsize=12)
-    plt.gca().set_xticks(np.arange(len(residues_names)))
+    #plt.gca().set_xticks(np.arange(len(residues_names)))
     
     # Add legend
     legend_handles = [
@@ -368,7 +385,12 @@ def dssp_chain_analysis(trajectory_file, topology_file, output_dir, name_file, c
     cbar.ax.yaxis.label.set_size(16)  # Ajusta el tamaño del label
     # Save plot
     output_path = f"{output_dir}/{name_file}_chain_{chain_id}_dssp.png"
-    plt.yticks(ticks=np.arange(0, len(residues_names), 20), labels=residues_names[::20], rotation=0, fontsize=14)
+    #plt.yticks(ticks=np.arange(0, len(residues_names), 20), labels=residues_names[::20], rotation=0, fontsize=14)
+    n_res = len(residues_names)
+    step = _choose_tick_step(n_res, target_labels=35)
+    yticks_idx = np.arange(0, n_res, step) if n_res > 0 else np.array([0])
+    if n_res > 0:
+        plt.yticks(yticks_idx, np.array(residues_names)[yticks_idx], rotation=0, fontsize=14)    
     plt.tight_layout()
     plt.savefig(output_path, dpi=300)
     plt.close()  # Close figure to avoid overlap
@@ -445,7 +467,14 @@ def plot_rmsd_rmsf(u,output_dir,residues_1_names,residues_2_names ,label_1, labe
                 plt.plot(residues_names, avg_rmsf, label=f"Chain {segid} RMSF")
                 plt.xlabel("Atom Index")
                 plt.ylabel("RMSF (Å)")
-                plt.xticks(ticks=np.arange(0, len(residues_names), 8), labels=residues_names[::8], rotation=90, fontsize=12)
+                #plt.xticks(ticks=np.arange(0, len(residues_names), 8), labels=residues_names[::8], rotation=90, fontsize=12)
+                step = _choose_tick_step(len(residues_1_names), target_labels=40)
+                plt.xticks(
+                    ticks=np.arange(0, len(residues_1_names), step),
+                    labels=np.array(residues_1_names)[::step],
+                    rotation=90,
+                    fontsize=10
+                )
                 output_path = f"{output_dir}/rmsf{segid}.png"
                 #plt.yticks(ticks=np.arange(0, len(residues_names), 20), labels=residues_names[::20], rotation=0, fontsize=14)
                 plt.tight_layout()
@@ -543,8 +572,15 @@ def rmsf_2(u,residues_1_names,residues_2_names ,label_1, label_2,output_dir):
         plt.xlabel("Residue")
         plt.ylabel("RMSF (Å)")
         plt.title(f"RMSF - Cadena {segid}")
-        plt.xticks(ticks=np.arange(0, len(residues_names), 8),
-                   labels=residues_names[::8], rotation=90, fontsize=10)
+        # plt.xticks(ticks=np.arange(0, len(residues_names), 8),
+        #            labels=residues_names[::8], rotation=90, fontsize=10)
+        step = _choose_tick_step(len(residues_names), target_labels=40)
+        plt.xticks(
+            ticks=np.arange(0, len(residues_names), step),
+            labels=np.array(residues_names)[::step],
+            rotation=90,
+            fontsize=10
+        )
         plt.tight_layout()
 
         output_path = f"{output_dir}/rmsf_2{segid}.png"

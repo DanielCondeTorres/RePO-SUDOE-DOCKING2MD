@@ -7,7 +7,7 @@ gmx make_ndx -f "$OUTPUT_DIR"/prod.tpr -o "$OUTPUT_DIR"/index.ndx << EOF
 "Other"|"Protein"
  q
 EOF
-gmx trjconv -s "$OUTPUT_DIR"/prod.tpr -f "$OUTPUT_DIR"/prod.xtc -pbc mol -center -n "$OUTPUT_DIR"/index.ndx -o "$OUTPUT_DIR"/center.pdb -e 0 << EOF
+gmx trjconv -s "$OUTPUT_DIR"/prod.tpr -f "$OUTPUT_DIR"/prod.gro -pbc mol -center -n "$OUTPUT_DIR"/index.ndx -o "$OUTPUT_DIR"/center.pdb << EOF
 Protein
 Other_Protein
 EOF

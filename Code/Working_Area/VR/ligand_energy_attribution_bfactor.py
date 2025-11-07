@@ -33,6 +33,7 @@ subprocess.run(f'obabel -ipdbqt {args.pdbqt_ligs} -opdb -O {args.output_pdb}.pdb
 subprocess.run(f'obabel -ipdbqt {args.pdbqt_ligs} -osdf -O {args.output_pdb}.sdf',shell=True, check=True)
 # Paso 2: Leer archivo pdb y extraer energías
 with open(f'{args.output_pdb}.pdb', 'r') as file:
+# with open(args.output_pdb, 'r') as file:
     lines = file.readlines()
 
 energias = {}
@@ -55,6 +56,8 @@ for linea in lines:
         energia = float(linea.split()[3])
         energias[indice_modelo_actual] = energia
         modelo_actual.append(linea)
+        print(energia)
+        
 
     elif linea.startswith('ENDMDL'):
         modelo_actual.append(linea)
