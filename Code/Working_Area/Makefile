@@ -99,4 +99,4 @@ crear_archivos_VR:
 	cp ../$(output_dir)/prod* ../$(output_dir)/Simulation_files/
 # cp $(root)/all.pdbqt ../$(output_dir)/all.pdbqt #Esta linea es la que vamos a necesitar, hacen falta los tests.
 clean:
-	rm -r $(ligand_name).acpype *gro *mdp *edr *pdb *xtc *cpt *log $(ligand_name).acpype
+	rm -r $(ligand_name).acpype *gro *mdp *edr *pdb *xtc *cpt *log $(ligand_name).acpype step*
