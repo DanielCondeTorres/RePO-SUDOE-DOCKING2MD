@@ -46,8 +46,10 @@
 import argparse
 import prolif as plf
 import MDAnalysis as mda
+from MDAnalysis.topology import guessers   # 👈 NUEVO
 import matplotlib.pyplot as plt
 from prolif.plotting.network import LigNetwork
+
 
 # ------------------ PARSER DE ARGUMENTOS ------------------
 parser = argparse.ArgumentParser(description="Genera red de interacciones proteína-ligando con ProLIF")
@@ -58,7 +60,7 @@ parser.add_argument("--pose_index", type=int, default=0, help="Índice de la pos
 parser.add_argument("--residue_shift", type=int, default=0, help="Valor constante a sumar a los IDs de los residuos")
 args = parser.parse_args()
 
-# ------------------ CARGAR Y MODIFICAR PROTEÍNA ------------------
+'''# ------------------ CARGAR Y MODIFICAR PROTEÍNA ------------------
 print("🔄 Cargando proteína...")
 protein = mda.Universe(args.protein)
 
@@ -84,7 +86,41 @@ except ValueError as e:
 for residuo in protein_atoms.residues:
     residuo.resid += args.residue_shift
 # Crear objeto ProLIF para la proteína
+protein_plf = plf.Molecule.from_mda(protein, NoImplicit=False)'''
+
+# ------------------ CARGAR Y MODIFICAR PROTEÍNA ------------------
+print("🔄 Cargando proteína...")
+protein = mda.Universe(args.protein)
+
+# 🔹 AÑADIR ELEMENTOS (soluciona el error del RDKitConverter con receptor_clean.pdb)
+elements = guessers.guess_types(protein.atoms.names)
+protein.add_TopologyAttr("elements", elements)
+
+# *[FIX APLICADO]* Seleccionar solo los átomos de la proteína ANTES de adivinar bonds
+protein_atoms = protein.select_atoms("protein")
+try:
+    # Intenta adivinar bonds solo en los átomos de la proteína
+    protein_atoms.guess_bonds()  
+    print("✅ Bonds detectados correctamente en la proteína.")
+except ValueError as e:
+    print(f"⚠️ Advertencia: Error al adivinar bonds. Intenta un método alternativo.")
+    print(f"Detalle del error: {e}")
+    # Si falla, se puede intentar adivinar bonds en el universo completo con un vdw radius para 'CO'
+    if 'vdw radii for types: CO' in str(e):
+        print("💡 Aplicando workaround para el tipo 'CO' con vdw_radii={'CO': 1.8}.")
+        vdw_radii = {'CO': 1.8}
+        protein.atoms.guess_bonds(vdwradii=vdw_radii)
+    else:
+        # Si es otro error, lanzarlo
+        raise e
+
+# Ajustar IDs de residuos
+for residuo in protein_atoms.residues:
+    residuo.resid += args.residue_shift
+
+# Crear objeto ProLIF para la proteína (se mantiene NoImplicit)
 protein_plf = plf.Molecule.from_mda(protein, NoImplicit=False)
+
 
 # ------------------ CARGAR LIGANDOS ------------------
 print("🔄 Cargando poses...")

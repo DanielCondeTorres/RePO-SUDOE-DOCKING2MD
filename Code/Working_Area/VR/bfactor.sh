@@ -63,6 +63,9 @@ cp "$path/bfactor_receptor_center/receptor_final_bfactor_residue.pdb" "$vr_folde
 cp "$path/center_complete.xtc" "$vr_folder/center.xtc"
 cp "$path/center_complete.pdb" "$vr_folder/center.pdb"
 mv "$vr_folder/receptor_final_bfactor_residue.pdb" "$vr_folder/receptor.pdb"
+mv "$path/models_center_pdb" "$path/Docking_poses"
+rm -rf "$path/bfactor_receptor_center"
+
 
 # Copy ligand pdb file
 cp $ligand "$vr_folder/ligando.pdb"

@@ -15,10 +15,10 @@ gmx trjconv -s "$OUTPUT_DIR"/prod.tpr -f "$OUTPUT_DIR"/prod.xtc -pbc mol -center
 Protein
 Other_Protein
 EOF
-mkdir "$OUTPUT_DIR"/Images/
+mkdir "$OUTPUT_DIR"/Dynamics_Results/
 
 module load cesga/system miniconda3/22.11.1-1
-conda run -n acpype python ../Working_Area/Scripts_Carlos/analysis_complex.py -pdb "$OUTPUT_DIR"/center.pdb -xtc "$OUTPUT_DIR"/center.xtc -output "$OUTPUT_DIR"/Images/
-conda run -n acpype python ../Working_Area/Scripts_Carlos/contacts_ligand.py -pdb "$OUTPUT_DIR"/center.pdb -xtc "$OUTPUT_DIR"/center.xtc -Output_dir "$OUTPUT_DIR"/Images/
+conda run -n acpype python ../Working_Area/Scripts_Carlos/analysis_complex.py -pdb "$OUTPUT_DIR"/center.pdb -xtc "$OUTPUT_DIR"/center.xtc -output "$OUTPUT_DIR"/Dynamics_Results/
+conda run -n acpype python ../Working_Area/Scripts_Carlos/contacts_ligand.py -pdb "$OUTPUT_DIR"/center.pdb -xtc "$OUTPUT_DIR"/center.xtc -Output_dir "$OUTPUT_DIR"/Dynamics_Results/
 
 

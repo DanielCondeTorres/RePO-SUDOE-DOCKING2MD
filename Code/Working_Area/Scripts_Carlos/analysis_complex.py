@@ -230,7 +230,7 @@ def dssp_analysis(chain_id, trajectory_file, topology_file, residues_names, Outp
     plt.xticks(fontsize=12)
     plt.show()
     plt.tight_layout()
-    plt.savefig(f"{Output_dir}/{name_file}dssp.png", dpi = 300)
+    plt.savefig(f"{Output_dir}/{name_file}_dssp.png", dpi = 300)
 
 def calculate_distance_between_centers_of_mass(u, Output_dir ,labels_size: float  = 20, ticks_size: float = 16):
     """
@@ -392,7 +392,7 @@ def dssp_chain_analysis(trajectory_file, topology_file, output_dir, name_file, c
     if n_res > 0:
         plt.yticks(yticks_idx, np.array(residues_names)[yticks_idx], rotation=0, fontsize=14)    
     plt.tight_layout()
-    plt.savefig(output_path, dpi=300)
+    #plt.savefig(output_path, dpi=300)
     plt.close()  # Close figure to avoid overlap
 
     print(f"Saved: {output_path}")
@@ -574,7 +574,7 @@ def rmsf_2(u,residues_1_names,residues_2_names ,label_1, label_2,output_dir):
         plt.title(f"RMSF - Cadena {segid}")
         # plt.xticks(ticks=np.arange(0, len(residues_names), 8),
         #            labels=residues_names[::8], rotation=90, fontsize=10)
-        step = _choose_tick_step(len(residues_names), target_labels=30)
+        step = _choose_tick_step(len(residues_names), target_labels=40)
         plt.xticks(
             ticks=np.arange(0, len(residues_names), step),
             labels=np.array(residues_names)[::step],
@@ -583,7 +583,7 @@ def rmsf_2(u,residues_1_names,residues_2_names ,label_1, label_2,output_dir):
         )
         plt.tight_layout()
 
-        output_path = f"{output_dir}/rmsf_{segid}.png"
+        output_path = f"{output_dir}/rmsf_2{segid}.png"
         plt.savefig(output_path, dpi=300)
         plt.close()
         # Guardar RMSF en un archivo .txt

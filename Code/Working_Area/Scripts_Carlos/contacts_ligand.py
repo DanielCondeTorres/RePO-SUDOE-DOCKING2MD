@@ -296,7 +296,7 @@ def contact_map(u, subunit_inter_1, subunit_inter_2,
             lbl.set_fontsize(9)
 
     plt.tight_layout()
-    plt.savefig(f"{Output_dir}/{contact_map_name}__.png", dpi=500)
+    plt.savefig(f"{Output_dir}/{contact_map_name}.png", dpi=500)
     plt.close()
 
     return residues1, residues2
@@ -378,8 +378,8 @@ def main():
                         help="Radio de contacto en Ångströms (por defecto 3.5 Å)")
     parser.add_argument('-Output_dir', type=str, default='.', 
                         help="Nombre del archivo de salida para el gráfico")
-    parser.add_argument("-r1_number", default=1, help="Int number to start to count residue 1")
-    parser.add_argument("-r2_number", default=1, help="Int number to start to count residue 2")
+    parser.add_argument("-r1_number", default=0, help="Int number to start to count residue 1")
+    parser.add_argument("-r2_number", default=0, help="Int number to start to count residue 2")
     parser.add_argument("-r3_number", default=0, help="Int number to start to count residue 3")
     parser.add_argument("-label_1", default='Protein', help="Name residue 1")
     parser.add_argument("-label_2", default='Ligand', help="Name residue 2")
@@ -399,7 +399,7 @@ def main():
         u, s2, s1,
         args.r2_number, args.r1_number,
         args.label_2, args.label_1,
-        args.Output_dir, '1',
+        args.Output_dir, 'contacts_map_zoomed',
         args.contact_radius,
         jump_1=10,
         jump_2=10,
@@ -412,7 +412,7 @@ def main():
         u, s2, s1,
         args.r2_number, args.r1_number,
         args.label_2, args.label_1,
-        args.Output_dir, 'not_accordion',
+        args.Output_dir, 'contacts_map',
         args.contact_radius,
         jump_1=10,
         jump_2=10,
