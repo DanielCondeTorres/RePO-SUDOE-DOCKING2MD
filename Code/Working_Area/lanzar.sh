@@ -40,7 +40,6 @@ DEF_VARS_SCRIPT="Scripts_Carlos/def_vars.sh" #dev_vars.sh or def_vars_mac.sh dep
 # =====================================
 
 INPUT_FOLDER="2REI_Afatinib"
-# INPUT_FOLDER="6QH4_Abemaciclib"
 
 # --- Definir variables automáticamente ---
 ROOT="../Input_files/$INPUT_FOLDER"
@@ -69,7 +68,7 @@ echo "--------------------------------------------------------"
 set +e
 
 # 2. Ejecutamos make all
-make -f Makefile_v2 crear_archivos_VR\
+make -f Makefile_v2 all\
     root="$root" \
     output_dir="$output_dir" \
     receptor_pdb="$receptor_pdb" \
