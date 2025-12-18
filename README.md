@@ -13,13 +13,76 @@ conda env create -f nombre_del_archivo.yml
 conda activate acype
 ```
 
+
+This workflow is automated via the `lanzar.sh` script. The process is designed to minimize user input by automatically deriving necessary simulation variables from the input files.
+
+### 1. Configuration
+
+To run a simulation, you only need to modify **one variable** inside the `lanzar.sh` script:
+
+* **`INPUT_FOLDER`**: Set this to the name of the directory containing your specific input files.
+* *Note:* Ensure the files inside this folder share the corresponding naming convention (root name), as the script uses these filenames to define the variables passed to the `make` command.
+
+
+
+> **Important:** The **Forcefield** and **Water Model** parameters are currently fixed within `lanzar.sh`.
+
+Inside lanzar.sh you only need to modify INPUT_FOLDER name (this folder must be inside de directory Input_files)
 ```
- make all root=../experiment_33_docking_files/ output_dir=Dir_name_to_save_results receptor_pdb=receptor.pdb ligand_name=name_of_the_lignand resultados_vina_pdqt=results_out.pdbqt.sdf ff=forcefield_name water=water_model
+# =====================================
+# Carpeta en Input_Files que va a usarse
+# =====================================
+
+INPUT_FOLDER="2REI_Afatinib"
+
+# --- Definir variables automáticamente ---
+ROOT="../Input_files/$INPUT_FOLDER"
+eval "$("$DEF_VARS_SCRIPT" "$ROOT")"
 ```
 
-Ex:
+### 2. Execution
+
+Once the input folder is defined, execute the script:
+
+```bash
+./lanzar.sh
+
 ```
- make all root=/Users/danielcondetorres/Desktop/GUARDA_PROYECTO/MMDR/Code/Output_Carlos/experiment_33_docking_files/ output_dir=Prueba_final receptor_pdb=3DKO.pdb ligand_name=Abemaciclib  resultados_vina_pdqt=3DKO_Abemaciclib_out.pdbqt.sdf ff=charmm27 water=tip3p
+
+**Internal Logic:**
+
+1. The script invokes `Makefile_v2` (note: the standard `Makefile` is present but ignored).
+2. It parses the `INPUT_FOLDER` to configure the simulation.
+3. Upon completion, it automatically runs `make clean` to remove temporary simulation artifacts.
+
+### 3. Output Structure
+
+The script generates a specific output directory containing the following sub-folders:
+
+* 📂 **Docking_picture**
+* 📂 **Docking_poses**
+* 📂 **Dynamics_results**
+* 📂 **Simulation_files**
+* 📂 **VR**
+
+**Cleanup & Logs:**
+
+* **Temporary Files:** Any files matching the pattern `#*` are automatically deleted from the output to keep the directory clean.
+* **SLURM Log:** A `slurm.out` file is generated in the `Working_Area`.
+* **Process Log:** A specific log file named `Ligand_Code_Receptor.log` is generated in the output folder.
+* This log tracks the execution of `Makefile_v2`, recording which targets were executed and confirming if the process finished normally or encountered errors.
+
+
+
+---
+
+### ⚠️ Technical Notes (For Developers)
+
+* **`main_ligand_modified.sh`**: You may notice this script in the directory. It is an experimental version intended to test resource allocation (specifically `ntmpi` and `ntomp` combinations like 4/1, 2/2, etc.). **It is currently unused** due to potential stability issues. The active `lanzar.sh` defaults to the standard `ntmpi 1` configuration.
+
+---
+
+
 ```
 ## Options
 - Water: spc, spce, tip3p, tip4p, tip5p, tips3p
